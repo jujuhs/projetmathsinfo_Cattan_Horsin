@@ -6,13 +6,17 @@ def f(x,y):
 
 
 def find_seed(f,c=0.0,x=0.0,eps=2**(-26)):
-    if not f(x,1.0)<=c<=f(x,0.0) and not f(x,0.0)<=c<=f(x,1.0):
-        return None
+    if not f(x,1.0)<= c <= f(x,0.0) and not f(x,0)<=c<=f(x,1.0):
+            return None  
+    a=0
+    b=1
     t=0.5
-    h=10**(-8)
     while abs(f(x,t)-c)>eps:  ##dichotomie des familles mais Newton ne fonctionnait pas...
-        fprime=(f(x,t+h)-f(x,t))/h
-        t=t-(f(x,t)/fprime)
+        if (f(x,a)-c)*(f(x,t)-c)>=0:
+            a=t
+        else :
+            b=t
+        t=(a+b)/2
     return t 
 
 
@@ -31,5 +35,8 @@ c=input("Donnez la valeur du réel c >> ")
 print(simple_contour(f,float(c)))
 plt.plot(simple_contour(f,float(c))[0],simple_contour(f,float(c))[1])
 plt.grid()
+plt.title(f"Courbe de niveau pour c={float(c)}")
+plt.xlabel("x")
+plt.ylabel("y")
 plt.show()
 
