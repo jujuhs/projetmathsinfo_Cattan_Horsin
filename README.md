@@ -1,2 +1,0 @@
-# projetmathsinfo_Cattan_Horsin
-Contribution de Julien
