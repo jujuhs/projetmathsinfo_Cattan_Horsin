@@ -4,9 +4,6 @@ import matplotlib.pyplot as plt
 def f(x,y):
     return np.exp(-x**2-y**2)
 
-def fyprime(x,y):
-    return (-2*y*f(x,y))
-
 
 def find_seed(f,c=0.0,x=0.0,eps=2**(-26)):
     if not f(x,1.0)<=c<=f(x,0.0) and not f(x,0.0)<=c<=f(x,1.0):
