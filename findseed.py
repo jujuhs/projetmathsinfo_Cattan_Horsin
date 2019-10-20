@@ -9,8 +9,8 @@ def find_seed(f,c=0.0,x=0.0,eps=2**(-26)):
     if not f(x,1.0)<=c<=f(x,0.0) and not f(x,0.0)<=c<=f(x,1.0):
         return None
     t=0.5
+    h=10**(-8)
     while abs(f(x,t)-c)>eps:  ##dichotomie des familles mais Newton ne fonctionnait pas...
-        h=10**(-8)
         fprime=(f(x,t+h)-f(x,t))/h
         t=t-(f(x,t)/fprime)
     return t 
