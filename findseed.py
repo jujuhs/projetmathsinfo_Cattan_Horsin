@@ -25,10 +25,15 @@ def find_seed(f,c=0.0,x=0.0,eps=2**(-26)):
 def simple_contour(f,c=0.0,delta=0.01):
     x=[]
     y=[]
+    Stock=[]
     for i in np.arange(0,1,delta):
-        if find_seed(f,c,i) != None :
-            y+=[find_seed(f,c,i)]
-            x+=[i]
+        for j in np.arange(i,i+delta,delta/1000):
+           if find_seed(f,c,j) != None :
+               Stock+=[j]
+               
+        
+        y+=[find_seed(f,c,i)]
+        x+=[i]
     return [x,y]
 
 c=input("Donnez la valeur du réel c >> ")    
