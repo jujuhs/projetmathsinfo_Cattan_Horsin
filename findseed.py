@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def f(x,y):
     return np.exp(-x**2-y**2)
 
@@ -23,7 +24,8 @@ def find_seed(f,c=0.0,x=0.0,eps=2**(-26)):
 #print(find_seed(f,float(c)))
 
 def distance(x,y):
-    return np.sqrt(((x[0]-y[0]**2)+(x[1]-y[1]])**2))
+    return np.sqrt(((x[0]-y[0])**2)+((x[1]-y[1])**2))
+
 def simple_contour(f,c=0.0,delta=0.01):
     x=[]
     y=[]
