@@ -31,7 +31,7 @@ def simple_contour(f,c=0.0,delta=0.01):
     y=[find_seed(f,c,0)]
     Stock=[]
     distance=[]
-    while x
+    while x blabla
         for j in np.arange(i,i+delta,delta/1000):
            if find_seed(f,c,j) != None :
                Stock+=[j]
