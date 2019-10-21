@@ -27,22 +27,21 @@ def distance(x,y):
     return np.sqrt(((x[0]-y[0])**2)+((x[1]-y[1])**2))
 
 def simple_contour(f,c=0.0,delta=0.01):
-    x=[]
-    y=[]
+    x=[0]
+    y=[find_seed(f,c,0)]
     Stock=[]
     distance=[]
-    for i in np.arange(0,1,delta):
+    while x
         for j in np.arange(i,i+delta,delta/1000):
            if find_seed(f,c,j) != None :
                Stock+=[j]
-               for a in Stock :
-                   distance+=[distance(j,find_seed(f,c,j))]
-                   
-
-
-        
-        y+=[find_seed(f,c,i)]
-        x+=[i]
+        for a in Stock :
+            X=[x[-1],c]
+            Y=[find_seed(f,c,a),c]
+            distance+=[distance(X,Y)]
+        e=distance.index(min(distance))
+        y+=[find_seed(f,c,Stock[e])]
+        x+=[Stock[e]]
     return [x,y]
 
 c=input("Donnez la valeur du réel c >> ")    
