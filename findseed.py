@@ -26,33 +26,31 @@ def distanceeucl(x,y):
 
 def simple_contour(f,c=0.0,delta=0.01):
     x=[0]
-    proche=True
-    y=[find_seed(f,c,0)]    
-    while proche==True and x[-1]<=1-delta:
+    y=[find_seed(f,c,0)]   
+    presence=True 
+    while presence==True and x[-1]<1-delta:
         stock=[]
         distance=[]
         for j in np.arange(x[-1],x[-1]+delta,delta/1000):
             if find_seed(f,c,j) != None :
-                stock+=[(j,find_seed(f,c,j))]
-        if stock==[]:
-            proche=False
-        else:
-            for a in stock :
-                avant=[x[-1],y[-1]]
-                apres=a
-                distance+=distanceeucl(avant, apres)
-                pritn(distance)
-            L=[]
-            for i in distance:
-                L.append(abs(i-delta))
-            e=L.index(min(L))
-            y+=[stock[e][1]]
-            x+=[stock[e][0]]
+                stock+=[[j,find_seed(f,c,j)]]
+        avant=[x[-1],y[-1]]
+        for a in stock :
+            apres=a
+            distance+=[distanceeucl(avant, apres)]       
+        L=[abs(distance[i]-delta) for i in range(len(distance))]
+        e=L.index(min(L))
+        if distanceeucl(avant,stock[e]) < (delta/10) :
+            presence=False
+        y+=[stock[e][1]]
+        x+=[stock[e][0]]
+        print(stock[e][0])
     return [x,y]
 
 c=input("Donnez la valeur du réel c >> ")    
-print(simple_contour(f,float(c)))
-plt.plot(simple_contour(f,float(c))[0],simple_contour(f,float(c))[1])
+data=simple_contour(f,float(c))
+#print(simple_contour(f,float(c)))
+plt.plot(data[0],data[1])
 plt.grid()
 plt.title(f"Courbe de niveau pour c={float(c)}")
 plt.xlabel("x")
