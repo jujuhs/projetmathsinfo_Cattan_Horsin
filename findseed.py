@@ -20,7 +20,7 @@ def find_seed(f,c=0.0,x=0.0,eps=2**(-26)):
         t=(a+b)/2
     return t 
 
-def distance(x,y):
+def distanceeucl(x,y):
     return np.sqrt(((x[0]-y[0])**2)+((x[1]-y[1])**2))
 
 
@@ -31,21 +31,23 @@ def simple_contour(f,c=0.0,delta=0.01):
     while proche==True and x[-1]<=1-delta:
         stock=[]
         distance=[]
-        for j in (np.arange(x,x+delta,delta/1000)):
+        for j in np.arange(x[-1],x[-1]+delta,delta/1000):
             if find_seed(f,c,j) != None :
-                stock.append((j,find_seed(f,c,j)))
+                stock+=[(j,find_seed(f,c,j))]
         if stock==[]:
             proche=False
         else:
             for a in stock :
                 avant=[x[-1],y[-1]]
                 apres=a
-                distance+=[distance(avant, apres)]
-                d=np.array(distance)
-                e=distance.index(min(np.abs(d-delta)))
-                print(stock[e][0])
-                y+=[stock[e][1]]
-                x+=[stock[e][0]]
+                distance+=distanceeucl(avant, apres)
+                pritn(distance)
+            L=[]
+            for i in distance:
+                L.append(abs(i-delta))
+            e=L.index(min(L))
+            y+=[stock[e][1]]
+            x+=[stock[e][0]]
     return [x,y]
 
 c=input("Donnez la valeur du réel c >> ")    
