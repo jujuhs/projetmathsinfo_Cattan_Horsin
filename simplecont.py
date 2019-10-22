@@ -17,7 +17,7 @@ def find_seed(f,c=0.0,x=0.0,eps=2**(-26)):
 def f(x,y):
     return 2*(np.exp(-x**2-y**2)-np.exp(-(x-1)**2-(y-1)**2))
 def normalisation(vecteur,normev):
-    norme=distance(vecteur,(0,0))
+    norme=distanceeucl(vecteur,(0,0))
     x=vecteur[0]
     y=vecteur[1]
     return (x*normev/norme,y*normev/norme)
@@ -34,7 +34,7 @@ def distanceeucl(x,y):
 def simple_contour(f,c=0.0,delta=0.01):
     x=[0]
     y=[find_seed(f,c,0)]          
-    while x[-1]<1-delta and y[-1]>0+delta and y[-1]<0-delta:
+    while x[-1]<1-delta and y[-1]>0+delta and y[-1]<1-delta:
         distance=[]
         avant=[x[-1],y[-1]]
         tang=(-derivee_deux_coord(f,avant[0],avant[1]),derivee_prem_coord(f,avant[0],avant[1]))
