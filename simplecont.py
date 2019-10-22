@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt  
 import autograd
 from autograd import numpy as np
-import numpy as ip
 
 
 def find_seed(f,c=0.0,x=0.0,eps=2**(-26)):
@@ -56,7 +55,7 @@ def simple_contour(f,c=0.0,delta=0.01):
     p1=(avant[0]+v[0],avant[1]+v[1])
     x+=[p1[0]]
     y+=[p1[1]]
-    while x[-1]<1-delta and y[-1]>0+delta and y[-1]<1-delta:
+    while x[-1]<1-delta and y[-1]>-0.3+delta and y[-1]<1-delta:
         distance=[]
         avant=[x[-1],y[-1]]
         gradient=grad(f,avant[0],avant[1])
@@ -67,7 +66,8 @@ def simple_contour(f,c=0.0,delta=0.01):
         p=[p1,p2]
         for i in p:
             distance+=[distanceeucl((x[-2],y[-2]),i)]
-        e=distance.index(max(distance))       
+        e=distance.index(max(distance))
+        
         def F(x,y):
             return np.array([f(x,y)-c,(x-avant[0])**2+(y-avant[1])**2-delta**2])
         
@@ -76,25 +76,18 @@ def simple_contour(f,c=0.0,delta=0.01):
             return np.c_[j(F,0)(x,y),j(F,1)(x,y)]
        
         X=np.array(p[e])   ##Il s'agit du point intermédiaire permettant d'initialiser Newton.
-<<<<<<< HEAD
         
         while distanceeucl(X,[0,0]) >= 2**(-26) :
             B=[[-F(avant[0],avant[1])[0]],[-F(avant[0],avant[1])[1]]]
             print(Jacob(F,avant[0],avant[1]))
-            X=X-np.linalg.inv(Jacob(F,avant[0],avant[1])).dot(np.array(B)) 
-=======
-        A=F(X[0],X[1])
-        while distanceeucl(A,[0,0]) >= 2**(-10) :
-            A=F(X[0],X[1])
-            print(A)
-            X=X-ip.linalg.inv(Jacob(F,X[0],X[1])).dot(np.array(A))
->>>>>>> 3e079ce80d89d983a7fb7bf4b34048e78bf72107
+            X=X-np.linalg.inv(Jacob(F,X[0],X[1])).dot(np.array(B)) 
         x+=[X[0]]
         y+=[X[1]]
     return [x,y]
 
 c=input("Donnez la valeur du réel c >> ")    
 data=simple_contour(f,float(c))
+print(simple_contour(f,float(c)))
 plt.plot(data[0],data[1])
 plt.grid()
 plt.title(f"Courbe de niveau pour c={float(c)}")
