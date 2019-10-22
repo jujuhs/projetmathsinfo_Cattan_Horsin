@@ -71,7 +71,7 @@ def simple_contour(f,c=0.0,delta=0.01):
         def F(x,y):
             return np.array([f(x,y)-c,(x-avant[0])**2+(y-avant[1])**2-delta**2])
         
-        def Jacob(F,x,y):                #on définit la jacobienne qui dépend du dernier point trouvé.
+        def Jacob(F,x,y):                #on définit la jacobienne.
             j = autograd.jacobian
             return np.c_[j(F,0)(x,y),j(F,1)(x,y)]
        
@@ -79,7 +79,8 @@ def simple_contour(f,c=0.0,delta=0.01):
         
         while distanceeucl(X,[0,0]) >= 2**(-26) :
             B=[[-F(avant[0],avant[1])[0]],[-F(avant[0],avant[1])[1]]]
-            X=X-np.linalg.inv(Jacob(F,avant[0],avant[1])).dot(np.array(B))
+            print(Jacob(F,avant[0],avant[1]))
+            X=X-np.linalg.inv(Jacob(F,avant[0],avant[1])).dot(np.array(B)) 
         x+=[X[0]]
         y+=[X[1]]
     return [x,y]
