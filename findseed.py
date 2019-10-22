@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 def f(x,y):
-    return np.exp(-x**2-y**2)
+    return 2*(np.exp(-x**2-y**2)-np.exp(-(x-1)**2-(y-1)**2))
 
 
 def find_seed(f,c=0.0,x=0.0,eps=2**(-26)):
