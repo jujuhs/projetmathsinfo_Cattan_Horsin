@@ -1,5 +1,7 @@
-import numpy as np  
 import matplotlib.pyplot as plt  
+import autograd
+from autograd import numpy as np
+
 
 def find_seed(f,c=0.0,x=0.0,eps=2**(-26)):
     if not f(x,1.0)<= c <= f(x,0.0) and not f(x,0)<=c<=f(x,1.0):
@@ -31,42 +33,60 @@ def normalisation(vecteur,normev):
     return (x*normev/norme,y*normev/norme)
 
 
+#def derivee_prem_coord(f,x,y,h=10**-4):
+    #return (f(x+h,y)-f(x,y))/h
 
-def derivee_prem_coord(f,x,y,h=10**-8):
-    return (f(x+h,y)-f(x,y))/h
+#def derivee_deux_coord(f,x,y,h=10**-4):
+    #return (f(x,y+h)-f(x,y))/h
 
-def derivee_deux_coord(f,x,y,h=10**-8):
-    return (f(x,y+h)-f(x,y))/h
+
+def grad(f,x,y):
+    g=autograd.grad
+    return np.r_[g(f,0)(x,y),g(f,1)(x,y)]
 
 
 def simple_contour(f,c=0.0,delta=0.01):
-    x=[0]
-    y=[find_seed(f,c,0)]          
+    x=[0.0]
+    y=[find_seed(f,c,0.0)]          
     avant=[x[-1],y[-1]]
-    tang=(-derivee_deux_coord(f,avant[0],avant[1]),derivee_prem_coord(f,avant[0],avant[1]))
+    gradient=grad(f,avant[0],avant[1])
+    tang=[-gradient[1],gradient[0]]
     v=normalisation(tang,delta)
     p1=(avant[0]+v[0],avant[1]+v[1])
     x+=[p1[0]]
     y+=[p1[1]]
-    while x[-1]<1-delta and y[-1]>0+delta and y[-1]<1-delta:
+    while x[-1]<1-delta and y[-1]>-0.3+delta and y[-1]<1-delta:
         distance=[]
         avant=[x[-1],y[-1]]
-        tang=(-derivee_deux_coord(f,avant[0],avant[1]),derivee_prem_coord(f,avant[0],avant[1]))
+        gradient=grad(f,avant[0],avant[1])
+        tang=[-gradient[1],gradient[0]]
         v=normalisation(tang,delta)
-        p1=(avant[0]+v[0],avant[1]+v[1])
-        p2=(avant[0]-v[0],avant[1]-v[1])
+        p1=[avant[0]+v[0],avant[1]+v[1]]
+        p2=[avant[0]-v[0],avant[1]-v[1]]
         p=[p1,p2]
         for i in p:
             distance+=[distanceeucl((x[-2],y[-2]),i)]
-        e=p.index(max(p))
-        x.append(p[e][0])
-        y.append(p[e][1])
-    print([x,y])
+        e=distance.index(max(distance))
+        
+        def F(x,y):
+            return np.array([f(x,y)-c,(x-avant[0])**2+(y-avant[1])**2-delta**2])
+        
+        def Jacob(F,x,y):                #on définit la jacobienne qui dépend du dernier point trouvé.
+            j = autograd.jacobian
+            return np.c_[j(F,0)(x,y),j(F,1)(x,y)]
+       
+        X=np.array(p[e])   ##Il s'agit du point intermédiaire permettant d'initialiser Newton.
+        
+        while distanceeucl(X,[0,0]) >= 2**(-26) :
+            B=[[-F(avant[0],avant[1])[0]],[-F(avant[0],avant[1])[1]]]
+            X=X-np.linalg.inv(Jacob(F,avant[0],avant[1])).dot(np.array(B))
+        x+=[X[0]]
+        y+=[X[1]]
     return [x,y]
 
 c=input("Donnez la valeur du réel c >> ")    
 data=simple_contour(f,float(c))
-#print(simple_contour(f,float(c)))
+print(simple_contour(f,float(c)))
 plt.plot(data[0],data[1])
 plt.grid()
 plt.title(f"Courbe de niveau pour c={float(c)}")
