@@ -20,7 +20,7 @@ def find_seed(f,c=0.0,x=0.0,eps=2**(-26)):
         t=(a+b)/2
     return t 
 
-def distanceeucl(x,y):
+def distanceeucl(x,y):*
     return np.sqrt(((x[0]-y[0])**2)+((x[1]-y[1])**2))
 
 
