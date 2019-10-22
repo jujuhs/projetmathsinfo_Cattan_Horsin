@@ -16,7 +16,13 @@ def find_seed(f,c=0.0,x=0.0,eps=2**(-26)):
     return t 
 
 def f(x,y):
+    return 2*(np.exp(-x**2-y**2)-np.exp(-(x-1)**2-(y-1)**2))
+
+def g(x,y):
     return x**2+(y-0.4)**2
+
+def distanceeucl(x,y):
+    return np.sqrt(((x[0]-y[0])**2)+((x[1]-y[1])**2))
 
 def normalisation(vecteur,normev):
     norme=distanceeucl(vecteur,(0,0))
@@ -24,8 +30,7 @@ def normalisation(vecteur,normev):
     y=vecteur[1]
     return (x*normev/norme,y*normev/norme)
 
-def distanceeucl(x,y):
-    return np.sqrt(((x[0]-y[0])**2)+((x[1]-y[1])**2))
+
 
 def derivee_prem_coord(f,x,y,h=10**-8):
     return (f(x+h,y)-f(x,y))/h
@@ -33,8 +38,6 @@ def derivee_prem_coord(f,x,y,h=10**-8):
 def derivee_deux_coord(f,x,y,h=10**-8):
     return (f(x,y+h)-f(x,y))/h
 
-def distanceeucl(x,y):
-    return np.sqrt(((x[0]-y[0])**2)+((x[1]-y[1])**2))
 
 def simple_contour(f,c=0.0,delta=0.01):
     x=[0]
