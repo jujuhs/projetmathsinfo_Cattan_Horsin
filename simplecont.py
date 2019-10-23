@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import autograd
 from autograd import numpy as np
 
+import numpy as ip 
 
 def find_seed(f,c=0.0,x=0.0,eps=2**(-26)):
     if not f(x,1.0)<= c <= f(x,0.0) and not f(x,0)<=c<=f(x,1.0):
@@ -24,7 +25,7 @@ def g(x,y):
     return x**2+(y-0.4)**2
 
 def distanceeucl(x,y):
-    return np.sqrt(((x[0]-y[0])**2)+((x[1]-y[1])**2))
+    return ip.sqrt(((x[0]-y[0])**2)+((x[1]-y[1])**2))
 
 def normalisation(vecteur,normev):
     norme=distanceeucl(vecteur,(0,0))
@@ -55,7 +56,7 @@ def simple_contour(f,c=0.0,delta=0.01):
     p1=(avant[0]+v[0],avant[1]+v[1])
     x+=[p1[0]]
     y+=[p1[1]]
-    while x[-1]<1-delta and y[-1]>-0.3+delta and y[-1]<1-delta:
+    while x[-1]<1-delta and y[-1]>0+delta and y[-1]<1-delta:
         distance=[]
         avant=[x[-1],y[-1]]
         gradient=grad(f,avant[0],avant[1])
@@ -69,7 +70,7 @@ def simple_contour(f,c=0.0,delta=0.01):
         e=distance.index(max(distance))
         
         def F(x,y):
-            return np.array([f(x,y)-c,(x-avant[0])**2+(y-avant[1])**2-delta**2])
+            return ip.array([f(x,y)-c,(x-avant[0])**2+(y-avant[1])**2-delta**2])
         
         def Jacob(F,x,y):                #on définit la jacobienne.
             j = autograd.jacobian
@@ -77,10 +78,9 @@ def simple_contour(f,c=0.0,delta=0.01):
        
         X=np.array(p[e])   ##Il s'agit du point intermédiaire permettant d'initialiser Newton.
         
-        while distanceeucl(X,[0,0]) >= 2**(-26) :
-            B=[[-F(avant[0],avant[1])[0]],[-F(avant[0],avant[1])[1]]]
-            print(Jacob(F,avant[0],avant[1]))
-            X=X-np.linalg.inv(Jacob(F,X[0],X[1])).dot(np.array(B)) 
+        while distanceeucl(X,[0,0]) >= 2**(-10) :
+            B=F(X[0],X[1])
+            X=X-ip.linalg.inv(Jacob(F,X[0],X[1])).dot(ip.array(B)) 
         x+=[X[0]]
         y+=[X[1]]
     return [x,y]
