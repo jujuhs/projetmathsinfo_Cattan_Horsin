@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt  
 import autograd
 from autograd import numpy as np
-import numpy as ip
 
 
 def find_seed(f,c=0.0,x=0.0,eps=2**(-26)):
@@ -68,11 +67,12 @@ def simple_contour(f,c=0.0,delta=0.01):
         p=[p1,p2]
         for i in p:
             distance+=[distanceeucl((x[-2],y[-2]),i)]
-        e=distance.index(max(distance))       
+        e=distance.index(max(distance))
+        
         def F(x,y):
             return np.array([f(x,y)-c,(x-avant[0])**2+(y-avant[1])**2-delta**2])
         
-        def Jacob(F,x,y):                #on définit la jacobienne qui dépend du dernier point trouvé.
+        def Jacob(F,x,y):                #on définit la jacobienne.
             j = autograd.jacobian
             return np.c_[j(F,0)(x,y),j(F,1)(x,y)]
        
@@ -87,6 +87,7 @@ def simple_contour(f,c=0.0,delta=0.01):
 
 c=input("Donnez la valeur du réel c >> ")    
 data=simple_contour(f,float(c))
+print(simple_contour(f,float(c)))
 plt.plot(data[0],data[1])
 plt.grid()
 plt.title(f"Courbe de niveau pour c={float(c)}")
