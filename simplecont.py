@@ -57,6 +57,7 @@ def simple_contour(f,c=0.0,delta=0.01):
     x+=[p1[0]]
     y+=[p1[1]]
     while x[-1]<1-delta and y[-1]>0+delta and y[-1]<1-delta:
+        print(1)
         distance=[]
         avant=[x[-1],y[-1]]
         gradient=grad(f,avant[0],avant[1])
@@ -79,7 +80,6 @@ def simple_contour(f,c=0.0,delta=0.01):
         A=F(X[0],X[1])
         while distanceeucl(A,[0,0]) >= 2**(-10) :
             A=F(X[0],X[1])
-            print(A)
             X=X-ip.linalg.inv(Jacob(F,X[0],X[1])).dot(np.array(A))
         x+=[X[0]]
         y+=[X[1]]
