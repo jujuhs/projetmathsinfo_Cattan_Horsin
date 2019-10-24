@@ -21,7 +21,7 @@ def find_seed(f,c=0.0,x=0.0,eps=2**(-26)):
 def f(x,y):
     return 2*(np.exp(-x**2-y**2)-np.exp(-(x-1)**2-(y-1)**2))
 
-def g(x,y):
+def h(x,y):
     return x**2+(y-0.4)**2
 
 def distanceeucl(x,y):
