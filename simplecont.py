@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import autograd
 from autograd import numpy as np
 
+import numpy as ip
+
 
 def find_seed(f,c=0.0,x=0.0,eps=2**(-26)):
     if not f(x,1.0)<= c <= f(x,0.0) and not f(x,0)<=c<=f(x,1.0):
@@ -56,7 +58,6 @@ def simple_contour(f,c=0.0,delta=0.01):
     x+=[p1[0]]
     y+=[p1[1]]
     while x[-1]<1-delta and y[-1]>0+delta and y[-1]<1-delta:
-        print(1)
         distance=[]
         avant=[x[-1],y[-1]]
         gradient=grad(f,avant[0],avant[1])
@@ -76,11 +77,11 @@ def simple_contour(f,c=0.0,delta=0.01):
             j = autograd.jacobian
             return np.c_[j(F,0)(x,y),j(F,1)(x,y)]
        
-        X=np.array(p[e])   ##Il s'agit du point intermédiaire permettant d'initialiser Newton.
-        A=F(X[0],X[1])
+        X=np.array(p[e])
+        A=F(X[0],X[1])   ##Il s'agit du point intermédiaire permettant d'initialiser Newton.
         while distanceeucl(A,[0,0]) >= 2**(-10) :
             A=F(X[0],X[1])
-            X=X-ip.linalg.inv(Jacob(F,X[0],X[1])).dot(np.array(A))
+            X=X-np.linalg.inv(Jacob(F,X[0],X[1])).dot(np.array(A))
         x+=[X[0]]
         y+=[X[1]]
     return [x,y]
