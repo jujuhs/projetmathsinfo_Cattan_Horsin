@@ -24,7 +24,7 @@ def f(x,y):
     return 2*(np.exp(-x**2-y**2)-np.exp(-(x-1)**2-(y-1)**2))
 
 def h(x,y):
-    return x**2+(y-0.4)**2
+    return x**2+y**2
 
 def distanceeucl(x,y):
     return np.sqrt(((x[0]-y[0])**2)+((x[1]-y[1])**2))
@@ -45,6 +45,7 @@ def normalisation(vecteur,normev):
 
 def grad(f,x,y):
     g=autograd.grad
+
     return np.r_[g(f,0)(x,y),g(f,1)(x,y)]
 
 
@@ -88,8 +89,7 @@ def simple_contour(f,c=0.0,delta=0.01):
     return [x,y]
 
 c=input("Donnez la valeur du réel c >> ")    
-data=simple_contour(f,float(c))
-print(simple_contour(f,float(c)))
+data=simple_contour(h,float(c))
 plt.plot(data[0],data[1])
 plt.grid()
 plt.title(f"Courbe de niveau pour c={float(c)}")
